@@ -1,0 +1,35 @@
+For Task 6, I utilized the established 6-table "PharmaPlus" schema, which was specifically designed for complex query tasks. This schema's structure, featuring a self-referencing SalesReps table (for manager-employee logic) and a header/detail SalesOrders/OrderItems relationship, provides a perfect foundation for all types of nested logic.
+
+The core deliverable, task_6_subqueries.sql, is not just a list of queries but a comprehensive, self-contained tutorial. It begins by defining and populating the schema with a rich dataset, including specific edge cases like unsold products and customers with no orders, to ensure that NOT IN and NOT EXISTS queries produce meaningful results.
+
+The file's main body is a guide of over 30 commented examples, broken down into logical sections to fulfill all task objectives:
+
+Subqueries in WHERE: This section demonstrates the most common use of subqueries: filtering. It provides examples for:
+
+Single-value filtering using =: (e.g., ... WHERE manufacturer_id = (SELECT id FROM ... WHERE name = '...')).
+
+Multi-value filtering using IN and NOT IN: (e.g., finding all products that have been sold, or all products that have never been sold).
+
+Boolean filtering using EXISTS and NOT EXISTS: (e.g., finding all customers who have placed an order, or all sales reps who have not made a sale). This directly addresses a key task requirement.
+
+Subqueries in SELECT (Scalar Subqueries): This section focuses on a critical interview topic. I provided several examples of scalar subqueries, which must return exactly one row and one column.
+
+Simple Scalar Query: Calculating the overall average price and displaying it as a new column next to each product.
+
+Correlated Scalar Query: This more advanced example shows how to fetch a related value for each specific row. For instance, displaying a customer's name alongside a (SELECT COUNT(*)...) query that calculates the total order count only for that customer.
+
+Subqueries in FROM (Derived Tables): This section, which directly relates to the "derived table" interview question, demonstrates how to break a complex problem into simpler steps.
+
+Example Logic: Instead of one massive, confusing query, we first create a derived table (e.g., (SELECT rep_id, SUM(sale_value) AS total_sales FROM ... GROUP BY rep_id) AS SalesSummary).
+
+Outer Query: The main query can then treat SalesSummary as a real table, joining it to the SalesReps table to easily get the name, region, and total sales for each rep. This shows how subqueries in the FROM clause simplify aggregation.
+
+Correlated Subqueries: This advanced section isolates the most complex subquery type. I provided clear, commented examples explaining the row-by-row execution.
+
+Classic Example: "Find all products (p1) that are more expensive than the average price of their own category." This query (... WHERE p1.price > (SELECT AVG(p2.price) ... WHERE p2.category = p1.category)) is a perfect illustration of the outer query (p1) feeding data into the inner query (p2) for each row.
+
+Self-Referencing Example: Using a correlated scalar subquery to find the name of each sales rep's manager by linking r1.manager_id to r2.rep_id within the SELECT clause.
+
+Subqueries in HAVING: Finally, I included examples of using subqueries to filter after aggregation (e.g., "Find all customers whose total spending is greater than the overall average order value").
+
+This comprehensive approach ensures that the SQL file fulfills all task objectives and provides practical, well-explained examples for every interview question mentioned in the task PDF.
