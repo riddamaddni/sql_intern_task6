@@ -2,54 +2,58 @@ Task 6: SQL Subqueries and Nested Queries
 
 Objective
 
-The primary goal of this task is to master the use of SQL subqueries (also known as nested queries). This goes beyond simple SELECT statements and involves building complex, multi-step logic to answer sophisticated business questions.
+The primary goal of this task is to master the use of SQL subqueries (also known as nested queries). This goes beyond simple SELECT statements and involves building complex, multi-step logic to answer sophisticated business questions that a simple join cannot.
 
-The objective is to understand and implement subqueries in all their forms:
+The core learning objectives are:
 
-Filtering Data: Using subqueries in the WHERE clause to filter results based on dynamic conditions (e.g., finding all products that cost more than the average).
+Advanced Filtering: Using subqueries in the WHERE and HAVING clauses to filter data based on dynamic, calculated conditions (e.g., finding all products that cost more than the average, or finding reps who sold more than the average).
 
-Creating Calculated Columns: Using "Scalar Subqueries" in the SELECT list to return a single value as a new column (e.g., showing an employee's sales next to their manager's total sales).
+In-Line Calculations: Using "Scalar Subqueries" in the SELECT list to return a single, calculated value as a new column (e.g., showing a customer's name next to their total order count).
 
-Simplifying Complex Logic: Using subqueries in the FROM clause to create "Derived Tables." This allows you to break a complex problem into simpler parts, such as performing an aggregation first and then joining that result to another table.
+Simplifying Complex Logic: Using subqueries in the FROM clause to create "Derived Tables." This is a critical skill for breaking a complex problem into simpler, manageable parts, such as performing an aggregation first and then joining that result to another table.
 
-Database Schema
+Implementing Row-by-Row Logic: Writing "Correlated Subqueries" where the inner query depends on and runs once for each row of the outer query.
 
-This project uses the 6-table "PharmaPlus" database from Task 5, which models a pharmaceutical sales distributor. The schema is designed to be highly interconnected, providing a realistic environment for complex queries.
+Database Schema: "PharmaPlus"
 
-The 6 tables are:
+This project uses the 6-table "PharmaPlus" database from Task 5, which models a pharmaceutical sales distributor. The schema is designed to be highly interconnected, providing a realistic environment for complex queries. The inclusion of unsold products, inactive customers, and a self-referencing employee table is specifically designed to test all forms of subqueries (NOT IN, NOT EXISTS, correlated queries).
 
-Manufacturers: A lookup table holding manufacturer names (e.g., 'MediGen', 'BioLife') and their country.
+The 6 tables and their relationships are:
 
-Products: The product catalog. This table is linked via a foreign key to the Manufacturers table.
+Manufacturers: A top-level lookup table holding manufacturer names (e.g., 'MediGen', 'BioLife') and their country.
 
-SalesReps: The employee table, which includes a self-referencing manager_id foreign key. This parent-child link is perfect for practicing correlated subqueries and self-joins.
+Products: The main product catalog. This table has a many-to-one foreign key relationship with Manufacturers (manufacturer_id).
+
+SalesReps: The employee table. This table features a self-referencing foreign key (manager_id -> rep_id), which is perfect for practicing correlated subqueries (e.g., finding a rep's manager's name).
 
 Customers: A list of all clients (pharmacies, hospitals) that place orders.
 
-SalesOrders: The "header" table for transactions. It links Customers to SalesReps and records the date of each order.
+SalesOrders: The "header" table for transactions. It links Customers (via customer_id) and SalesReps (via rep_id) to record the date of each order.
 
-OrderItems: The "detail" table for transactions. It links a specific SalesOrder to the Products being sold and includes the quantity and price, resolving the many-to-many relationship.
+OrderItems: The "detail" table for transactions. It resolves the many-to-many relationship between SalesOrders and Products. Each row links an order (order_id) to a product (product_id) and records the quantity and price.
 
 Files in this Repository
 
 task_6_subqueries.sql
 
-This is the main, self-contained SQL file. It includes the complete CREATE TABLE statements for the 6-table schema and all the INSERT statements to populate it with rich, varied sample data (including 'unsold' products and 'inactive' customers to test NOT IN and NOT EXISTS).
+This is the main, self-contained SQL file. It includes the complete CREATE TABLE statements for the 6-table schema and all the INSERT statements to populate it with rich, varied sample data.
 
-The file contains a comprehensive tutorial with over 30 query examples. These examples are fully commented to explain the logic and are grouped by concept:
+The file is structured as a comprehensive tutorial with over 30 query examples. These examples are fully commented to explain the logic and are grouped by concept:
 
-WHERE Clause Subqueries: Demonstrates using =, IN, NOT IN, ANY, and ALL for filtering.
+Part A: WHERE Clause Subqueries: Demonstrates using =, IN, NOT IN, ANY, and ALL for basic and multi-row filtering.
 
-SELECT Clause (Scalar) Subqueries: Shows how to add individual calculated columns, such as finding the total order count for each customer.
+Part B: SELECT Clause (Scalar) Subqueries: Shows how to add individual calculated columns, such as finding the total order count for each customer.
 
-FROM Clause (Derived Tables): Provides clear examples of how to create temporary tables for multi-step aggregations, such as finding the average sales after first calculating the total sales per rep.
+Part C: FROM Clause (Derived Tables): Provides clear examples of how to create temporary tables for multi-step aggregations (e.g., finding the average sales after first calculating the total sales per rep).
 
-Correlated Subqueries: Includes specific examples of these powerful but performance-intensive queries, which run once for every row of the outer query (e.g., "find all products more expensive than their own category's average price").
+Part D: HAVING Clause Subqueries: Covers how to filter aggregate groups based on a subquery.
 
-EXISTS and NOT EXISTS: Covers the efficient, boolean-based operators for checking the existence of related data.
+Part E: EXISTS and NOT EXISTS: Covers the efficient, boolean-based operators for checking the existence of related data.
+
+Part F: Correlated Subqueries: Includes specific examples of these powerful but performance-intensive queries (e.g., "find all products more expensive than their own category's average price").
 
 interview_answers_task_6.md
 
 This is a concise study guide providing clear, accurate answers to the 10 interview questions from the task sheet.
 
-It covers the fundamental definitions (e.g., "What is a subquery?"), compares key concepts ("Difference between subquery and join?"), and explains technical details ("What is a correlated subquery?", "How does EXISTS work?"). This file is a key deliverable for preparing for technical interviews.
+It covers the fundamental definitions (e.g., "What is a subquery?"), compares key concepts ("Difference between subquery and join?"), and explains technical details ("What is a correlated subquery?", "How is performance affected?"). This file is a key deliverable for preparing for technical interviews.
