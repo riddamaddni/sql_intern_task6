@@ -1,0 +1,61 @@
+Task 6: Interview Questions - Subqueries
+
+1. What is a subquery?
+A subquery is a complete SQL query (a SELECT statement) that is nested inside another main SQL statement, such as SELECT, INSERT, UPDATE, or DELETE.
+
+2. Difference between subquery and join?
+
+Join: Combines columns from two or more tables into a single result set based on a related column.
+
+Subquery: Uses the result of one query (the "inner" query) to filter or provide data for another query (the "outer" query). A join merges tables, while a subquery provides a value or a list to act upon.
+
+3. What is a correlated subquery?
+A correlated subquery is an inner query that references one or more columns from the outer query. It cannot be run independently because it depends on the outer query's data. The subquery is re-executed for every single row processed by the outer query.
+
+4. Can subqueries return multiple rows?
+Yes.
+
+If a subquery returns multiple rows, it can be used with operators like IN, NOT IN, ANY, or ALL.
+
+If it is used with a single-value operator like =, >, or <, it must return only one row (a scalar value), otherwise it will throw an error.
+
+5. How does EXISTS work?
+EXISTS is an operator used in a WHERE clause to check if a subquery returns any rows at all.
+
+If the subquery returns one or more rows, EXISTS evaluates to TRUE.
+
+If the subquery returns zero rows, it evaluates to FALSE.
+
+It's efficient because it stops processing the subquery as soon as it finds the first matching row.
+
+6. How is performance affected by subqueries?
+
+Simple Subqueries: (e.g., ... WHERE id IN (SELECT id ...) ) Modern optimizers often convert these into efficient joins.
+
+Correlated Subqueries: These can be slow, especially on large tables, because the inner query must be re-run for every row of the outer query.
+
+Subqueries in SELECT: Scalar subqueries in the SELECT list can also slow down a query if they must be executed for every row.
+
+7. What is scalar subquery?
+A scalar subquery is a subquery that returns exactly one column and one row. It is treated as a single value and can be used anywhere a single value is expected, such as in the SELECT list or on one side of a comparison operator like =.
+
+8. Where can we use subqueries?
+You can use subqueries in many parts of a SQL statement:
+
+SELECT list (as a scalar subquery)
+
+FROM clause (as a derived table)
+
+WHERE clause (for filtering)
+
+HAVING clause (for filtering groups)
+
+INSERT ... (SELECT ...)
+
+UPDATE ... SET col = (SELECT ...)
+
+9. Can a subquery be in FROM clause?
+Yes. When a subquery is used in the FROM clause, it is called a derived table or an "inline view." It acts as a temporary table that the outer query can select from, join, or filter.
+
+10. What is a derived table?
+A derived table is the logical result set of a subquery placed in the FROM clause of a SELECT statement. It's a temporary, in-memory table that exists only for the duration of the query. It must be given an alias (e.g., ... FROM (SELECT ...) AS my_derived_table).
